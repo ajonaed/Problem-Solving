@@ -1,1 +1,1 @@
-# Sroblem-Solving
+# Problem-Solving Skill Prectice
