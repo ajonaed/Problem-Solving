@@ -5,7 +5,7 @@ def findCommonItem(list_1,list_2):
 
     '''My Thought: the brute force is to O(n^2), the process is for each element, iterate all element of the second list,
     if we have a common element, push that into the list,Worst case = O(n^2), average case = O(n * m) m is the second list's input size.
-    we  an have liner or O(2n), by using a set below is implementation '''
+    we  an have liner or O(n+m) or O(2n), by using a set below is implementation '''
     result = []
     item_keeper = set()
 

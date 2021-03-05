@@ -7,7 +7,7 @@
 def findThePairInSortedList(list_1,target):
     startPoint = 0
     endPoint   = len(list_1)-1
-    
+
     while startPoint < endPoint :
         sum = list_1[startPoint] + list_1[endPoint]
         if sum == target:
@@ -18,19 +18,29 @@ def findThePairInSortedList(list_1,target):
           endPoint -= 1
     return [0,0]
 
-#def findThePairInUnSortedList(list_1,target):
+def findThePairInUnSortedList(list_1,target):
+
+    comp = set()  # For storing complement
+
+    for item in list_1:
+        complement = target - item
+        if complement in comp:
+            return [item , complement]
+        else:
+            comp.add(complement)
+    return [0,0]
 
 
 def main():
     list_1 = [1,2,5,9]
     list_2 = [1,2,4,4]
-    print(findThePairInSortedList(list_1,10))
-    print(findThePairInSortedList(list_2, 10))
+    print('Sorted List: ',findThePairInSortedList(list_1,10))
+    print('Sorted List: ',findThePairInSortedList(list_2, 10))
 
-    # list_1 = [1,5,11,9]
-    # list_2 = [1,4,2,4]
-    # print(findThePairInUnSortedList(list_1),8)
-    # print(findThePairInUnSortedList(list_2),8)
+    list_1 = [1,5,11,9]
+    list_2 = [1,4,2,4]
+    print('Unsorted List: ',findThePairInUnSortedList(list_1,8))
+    print('Unsorted List: ',findThePairInUnSortedList(list_2,8))
 
 if __name__ == '__main__':
     main()
