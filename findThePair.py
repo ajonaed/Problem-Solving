@@ -24,11 +24,11 @@ def findThePairInUnSortedList(list_1,target):
 
     for item in list_1:
         complement = target - item
-        if complement in comp:
+        if complement in comp:  # did I see the complement before,
             return [item , complement]
-        else:
+        else:                   # if  I didn't see the complement, store it to the set.
             comp.add(complement)
-    return [0,0]
+    return [0,0]                # Once done iterating the list, return [0,0] as no pair available.
 
 
 def main():
