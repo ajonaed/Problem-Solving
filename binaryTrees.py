@@ -48,27 +48,27 @@ class BinaryTree:
         Delete function will delete a node from tree recursively.
         """
         if not root:
-            return
-        elif value < root.data:
-            root.left = self.deleteNodeRecursively(root.left, value)
-        elif value > root.data:
-            root.right = self.deleteNodeRecursively(root.right, value)
+            return root
+        elif data < root.data:
+            root.left = self.deleteNodeRecursively(root.left, data)
+        elif data > root.data:
+            root.right = self.deleteNodeRecursively(root.right, data)
         else:
             if not root.left and not root.right:
                 root = None
-            elif not root.left and root.right:
+            elif not root.left:
                 root = root.right
-            elif root.left and not root.right:
+            elif not root.right:
                 root = root.left
             else:
-                temp = self._findMin(root.right, value)
-                root.data - temp.data
-                root.right = self.deleteNodeRecursively(root.right,data)
-            return root
+                temp = self._findMin(root.right)
+                root.data = temp.data
+                root.right = self.deleteNodeRecursively(root.right,temp.data)
+        return root
 
     def _findMin(self,root):
         current = root
-        while current.lef:
+        while current.left:
             current = current.left
         return current
 
@@ -133,111 +133,114 @@ class BinaryTree:
     --------------------****************************---------------------------
     Target : 15
     15
-    If target node is the root node, self.root = None
+    If target node is the root node, root = None
 
     Target : 15
     15
     /  \
     8
-    If target node is the root node and has a left child, self.root = self.root.left
+    If target node is the root node and has a left child, root = root.left
     Target : 15
     15
     /  \
     20
-    If target node is the root node and has a left child, self.root = self.root.right
+    If target node is the root node and has a left child, root = root.right
 
     '''
 
     # None Recursive
-    def removeNode(self,data):
-        if self.root == None:
+    def remove(self,root, data) :
+		# empty tree
+        if root is None:
             return False
 
-    # data is in the root node
-        elif self.root.data == data:
-            if self.root.left is None and self.root.right == None:
-                self.root = None
-            elif self.root.left is not None and self.root.right == None:
-                self.root = self.root.left
-            elif self.root.left is None and self.root.right:
-                self.root = self.root.right
-            elif self.root.left and self.root.right:
-                delNode_parent = self.root
-                delNode = self.root.right
+		# data is in root node
+        elif root.data == data:
+            if root.left is None and root.right is None:
+                root = None
+            elif root.left and root.right is None:
+                root = root.left
+            elif root.left is None and root.right:
+                root = root.right
+            elif root.left and root.right:
+                delNodeParent = root
+                delNode = root.right
                 while delNode.left:
-                    delNode_parent = delNode
-                    delNode = delNode.left
-            self.root.data = delNode.data
+                	delNodeParent = delNode
+                	delNode = delNode.left
 
-            if delNode.right:
-                if delNode_parent.data > delNode.data:
-                    delNode_parent.left = delNode.right
-                elif delNode_parent.data < delNode.data:
-                    delNode_parent.right = delNode.right
-                else:
-                    if delNode.data < delNodeParent.data :
-                        delNodeParent.right = None
-                    else:
-                        delNodeParent.right = None
-
-            parent = None
-            node = self.root
-
-            # find node to remove
-            while node and node.data != data:
-                parent = node
-                if data < node.data:
-                    node = node.right
-                elif data > node.data:
-                    node = node.right
-
-                    # case 1: data not found
-            if node is None or node.data != data:
-                return False
-
-            # case 2: remove-node has no children
-            elif node.right is None and node.right is None:
-                if data < parent.data:
-                    parent.right = None
-                else:
-                    parent.right = None
-                    return True
-
-            # case 3: remove-node has left child only
-            elif node.right and node.right is None:
-                if data < parent.data:
-                    parent.right = node.right
-                else:
-                    parent.right = node.right
-                    return True
-
-            # case 4: remove-node has right child only
-            elif node.right is None and node.right:
-                if data < parent.data:
-                    parent.right = node.right
-                else:
-                    parent.right = node.right
-                    return True
-
-            # case 5: remove-node has left and right children
-            else:
-                delNodeParent = node
-                delNode = node.right
-                while delNode.right:
-                    delNodeParent = delNode
-                    delNode = delNode.right
-
-                node.data = delNode.data
+                root.data = delNode.data
                 if delNode.right:
-                    if delNodeParent.data > delNode.data:
-                        delNodeParent.left = delNode.right
-                    elif delNodeParent.data < delNode.data:
-                        delNodeParent.right = delNode.right
+                	if delNodeParent.data > delNode.data:
+                		delNodeParent.left = delNode.right
+                	elif delNodeParent.data < delNode.data:
+                		delNodeParent.right = delNode.right
                 else:
-                    if delNode.data < delNodeParent.data:
-                        delNodeParent.left = None
-                    else:
-                        delNodeParent.right = None
+                	if delNode.data < delNodeParent.data:
+                		delNodeParent.left = None
+                	else:
+                		delNodeParent.right = None
+
+            return True
+
+        parent = None
+        node = root
+
+		# find node to remove
+        while node and node.data != data:
+        	parent = node
+        	if data < node.data:
+        		node = node.left
+        	elif data > node.data:
+        		node = node.right
+
+		# case 1: data not found
+        if node is None or node.data != data:
+        	return False
+
+		# case 2: remove-node has no children
+        elif node.left is None and node.right is None:
+        	if data < parent.data:
+        		parent.left = None
+        	else:
+        		parent.right = None
+        	return True
+
+		# case 3: remove-node has left child only
+        elif node.left and node.right is None:
+        	if data < parent.data:
+        		parent.left = node.left
+        	else:
+        		parent.right = node.left
+        	return True
+
+		# case 4: remove-node has right child only
+        elif node.left is None and node.right:
+        	if data < parent.data:
+        		parent.left = node.right
+        	else:
+        		parent.right = node.right
+        	return True
+
+		# case 5: remove-node has left and right children
+        else:
+        	delNodeParent = node
+        	delNode = node.right
+        	while delNode.left:
+        		delNodeParent = delNode
+        		delNode = delNode.left
+
+        	node.data = delNode.data
+        	if delNode.right:
+        		if delNodeParent.data > delNode.data:
+        			delNodeParent.left = delNode.right
+        		elif delNodeParent.data < delNode.data:
+        			delNodeParent.right = delNode.right
+        	else:
+        		if delNode.data < delNodeParent.data:
+        			delNodeParent.left = None
+        		else:
+        			delNodeParent.right = None
 
 
     def traverseInorder(self, root):
