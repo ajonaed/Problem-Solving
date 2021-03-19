@@ -16,11 +16,24 @@ def factorialNonRecursive(n):
     for i in range(n,0,-1):
         answer *= i
     return answer
+def febonacciNonrecursive(n):
+    a, b = 0,1
+    for i in range(0,n):
+        a, b = b , a+b
+    return a
+
+def febonacci(n):
+    if n <= 1:
+        return n
+    else:
+        return febonacci(n-1) + febonacci(n-2)
 
 def main():
     # print(inception(0))
-    print('Recursively: ',factorial(5))
-    print('Non-recursively: ',factorialNonRecursive(5))
+    # print('Recursively: ',factorial(5))
+    # print('Non-recursively: ',factorialNonRecursive(5))
+    print(febonacciNonrecursive(7))
+    print(febonacci(7))
 
 
 if __name__ == '__main__':
